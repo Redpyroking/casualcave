@@ -7,7 +7,11 @@ onready var slotType = get_parent().slotType
 func _ready():
 	randomize()
 	if randi() % 10 == 0 and get_parent().get_parent().name != "Panel":
-		weapon = load("res://AllItem/weapon/sword.tres")
+		weapon = load("res://AllItem/weapon/basic_sword.tres")
+		texture = weapon.icon
+		slotType = 4
+	elif randi() % 10 == 1 and get_parent().get_parent().name != "Panel":
+		weapon = load("res://AllItem/weapon/basic_staff.tres")
 		texture = weapon.icon
 		slotType = 4
 	thisData["weapon"] = weapon

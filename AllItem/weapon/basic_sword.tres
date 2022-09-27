@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://BaseWeapon.gd" type="Script" id=1]
+[ext_resource path="res://asset/weapon/p1.png" type="Texture" id=2]
+
+[resource]
+script = ExtResource( 1 )
+icon = ExtResource( 2 )
+alias = "Basic Sword"
+idName = "basic_sword"
+level = 1
+melee_damage = 10
+weaponType = 0
+weight = 1.0
+spellItem = [  ]

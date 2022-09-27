@@ -46,6 +46,10 @@ func move_state(input, delta):
 		apply_acceleration(input.x, delta)
 #		animatedSprite.animation = "Run"
 		animatedSprite.flip_h = input.x < 0
+		if animatedSprite.flip_h:
+			$weaponPos.scale.x = -1
+		else:
+			$weaponPos.scale.x = 1
 	
 	if is_on_floor():
 		reset_double_jump()
@@ -79,8 +83,9 @@ func move_state(input, delta):
 	attack()
 
 func attack():
-	if Input.is_action_just_pressed("attack") and !$weapon/AnimationPlayer.is_playing():
-		$weapon/AnimationPlayer.play("swing")
+	if Input.is_action_just_pressed("attack") and !$weaponPos/weapon/AnimationPlayer.is_playing():
+		$weaponPos/weapon/AnimationPlayer.play("swing")
+		$weaponPos/weapon.attack()
 
 func climb_state(input):
 #	if not is_on_ladder(): state = MOVE

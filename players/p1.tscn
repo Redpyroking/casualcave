@@ -26,8 +26,11 @@ texture = ExtResource( 2 )
 margin_right = 40.0
 margin_bottom = 14.0
 
-[node name="weapon" parent="." instance=ExtResource( 3 )]
-position = Vector2( 4, 3 )
+[node name="weaponPos" type="Position2D" parent="."]
+position = Vector2( 0, 11 )
+
+[node name="weapon" parent="weaponPos" instance=ExtResource( 3 )]
+position = Vector2( 11, -9 )
 
 [connection signal="timeout" from="BufferJump" to="." method="_on_BufferJump_timeout"]
 [connection signal="timeout" from="Coyote" to="." method="_on_Coyote_timeout"]
