@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends "res://baseTemplate/entity.gd"
 
 enum Class {human,elf,demon,dwarf,goblin,orc,orge,
 			android,mutant}

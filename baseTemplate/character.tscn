@@ -5,6 +5,8 @@
 
 [node name="character" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+ClassType = 0
+JobType = 0
 
 [node name="StatusTimers" type="Node" parent="." index="0"]
 

@@ -17,14 +17,15 @@ func _ready():
 	thisData["weapon"] = weapon
 
 func drop_data(position, data):
+	print(data.thisData.weapon.alias)
 	var temp_texture = null
-	var temp_data = data
+	var temp_data = data.thisData
 	var temp_slotType = data.slotType
 	if data.texture:
 		temp_texture = data.texture
 	data.texture = texture
-	data = self
 	data.slotType = slotType
+	data.thisData = thisData
 	if temp_texture:
 		texture = temp_texture
 		thisData = temp_data
