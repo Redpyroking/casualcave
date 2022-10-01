@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://ResAllItems/spells/BaseGlyph.gd" type="Script" id=1]
+[ext_resource path="res://asset/glyph/fire.png" type="Texture" id=2]
+
+[resource]
+script = ExtResource( 1 )
+icon = ExtResource( 2 )
+name = "Fireball"
+function = "fireball"
+description = "Summon a ball of fire"

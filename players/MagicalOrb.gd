@@ -17,7 +17,8 @@ func _process(delta):
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 
-
 func _on_MagicalOrb_body_entered(body):
 	if body is TileMap:
+		queue_free()
+	elif body:
 		queue_free()

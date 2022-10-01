@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://asset/weapon/basic_staff.png" type="Texture" id=1]
+[ext_resource path="res://BaseWeapon.gd" type="Script" id=2]
+
+[resource]
+script = ExtResource( 2 )
+icon = ExtResource( 1 )
+alias = "Basic Staff"
+idName = "basic_staff"
+level = 1
+melee_damage = 3
+weaponType = 2
+weight = 0.4
+spellItem = [  ]
