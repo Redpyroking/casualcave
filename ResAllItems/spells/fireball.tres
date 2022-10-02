@@ -7,5 +7,5 @@
 script = ExtResource( 1 )
 icon = ExtResource( 2 )
 name = "Fireball"
-function = "fireball"
+function = "fire"
 description = "Summon a ball of fire"

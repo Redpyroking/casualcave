@@ -11,3 +11,22 @@ JobType = 0
 [node name="StatusTimers" type="Node" parent="." index="0"]
 
 [node name="burnTime" type="Timer" parent="StatusTimers" index="0"]
+wait_time = 4.0
+
+[node name="poisonTime" type="Timer" parent="StatusTimers" index="1"]
+wait_time = 15.0
+
+[node name="healthTimer" type="Timer" parent="." index="2"]
+wait_time = 0.2
+one_shot = true
+
+[node name="healthBar" type="ProgressBar" parent="." index="3"]
+margin_left = -24.0
+margin_top = -24.0
+margin_right = 24.0
+margin_bottom = -18.0
+percent_visible = false
+
+[connection signal="timeout" from="StatusTimers/burnTime" to="." method="_on_burnTime_timeout"]
+[connection signal="timeout" from="StatusTimers/poisonTime" to="." method="_on_poisonTime_timeout"]
+[connection signal="timeout" from="healthTimer" to="." method="_on_healthTimer_timeout"]

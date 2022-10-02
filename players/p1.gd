@@ -3,12 +3,12 @@ class_name Player
 
 enum { MOVE, CLIMB }
 
-const JUMP_FORCE = -160
-const JUMP_RELEASE_FORCE = -70
-const MAX_SPEED = 75
-const ACC = 600
-const FRICTION = 600
-const GRAVITY = 300
+const JUMP_FORCE = -290
+const JUMP_RELEASE_FORCE = -80
+const MAX_SPEED = 200
+const ACC = 700
+const FRICTION = 1000
+const GRAVITY = 600
 const ADDITIONAL_FALL_GRAVITY = 120
 const CLIMB_SPEED = 50
 const DOUBLE_JUMP_COUNT = 1

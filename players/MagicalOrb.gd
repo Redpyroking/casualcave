@@ -2,6 +2,7 @@ extends Area2D
 
 var direction = Vector2.RIGHT
 var speed = 400
+var currentMagic = null
 
 func init(pos,isDirRight):
 	global_position = pos
@@ -17,8 +18,20 @@ func _process(delta):
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 
+func addMagic(magic):
+	match magic:
+		"fire":
+			currentMagic = "fire"
+		"poison":
+			currentMagic = "poison"
+
 func _on_MagicalOrb_body_entered(body):
 	if body is TileMap:
 		queue_free()
 	elif body:
+		match currentMagic:
+			"fire":
+				body.burn()
+			"poison":
+				body.poison()
 		queue_free()

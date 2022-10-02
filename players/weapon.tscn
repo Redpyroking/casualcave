@@ -19,6 +19,30 @@ tracks/0/keys = {
 "update": 0,
 "values": [ 36.3813 ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("Area2D/CollisionPolygon2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Area2D/CollisionPolygon2D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 1 ) ]
+}
 
 [sub_resource type="Animation" id=3]
 resource_name = "swing"
@@ -35,6 +59,30 @@ tracks/0/keys = {
 "update": 0,
 "values": [ 40.4621, 116.054 ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("Area2D/CollisionPolygon2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Area2D/CollisionPolygon2D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 1 ), Vector2( 1, 22 ) ]
+}
 
 [node name="weapon" type="Node2D"]
 position = Vector2( 7, 1 )
@@ -47,12 +95,18 @@ texture = ExtResource( 1 )
 offset = Vector2( -0.120637, -7.34245 )
 
 [node name="Area2D" type="Area2D" parent="."]
+position = Vector2( 8, -9 )
+collision_layer = 16
+collision_mask = 2
 
 [node name="CollisionPolygon2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 0, 1 )
 shape = SubResource( 1 )
+disabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 2 )
 anims/swing = SubResource( 3 )
 
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

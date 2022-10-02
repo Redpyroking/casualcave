@@ -20,7 +20,7 @@ func _ready():
 			s.get_child(0).texture = s.get_child(0).thisData.holdItem.icon
 			s.slotType = 6
 		elif randi() % 5 == 3:
-			s.get_child(0).thisData.holdItem = load("res://ResAllItems/spells/iceball.tres")
+			s.get_child(0).thisData.holdItem = load("res://ResAllItems/spells/poison.tres")
 			s.get_child(0).texture = s.get_child(0).thisData.holdItem.icon
 			s.slotType = 6
 		$GridContainer.add_child(s)

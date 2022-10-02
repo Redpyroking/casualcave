@@ -6,6 +6,6 @@
 [resource]
 script = ExtResource( 1 )
 icon = ExtResource( 2 )
-name = "Ice"
+name = "Iceball"
 function = ""
 description = ""
