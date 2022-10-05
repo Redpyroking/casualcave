@@ -20,6 +20,9 @@ var buffered_jump = false
 var coyote_jump = false
 var on_door = false
 
+var knockback = 400
+var knockup = 300
+
 onready var animatedSprite: = $Sprite
 onready var jumpBufferTimer: = $BufferJump
 onready var coyoteJumpTimer: = $Coyote
@@ -157,3 +160,12 @@ func _on_BufferJump_timeout():
 func _on_Coyote_timeout():
 	coyote_jump = false
 	pass # Replace with function body.
+
+func knock(distance_bool):
+	if !distance_bool:
+		velocity.x = lerp(velocity.x,knockback,0.5)
+		velocity.y = lerp(velocity.y,-knockup,0.5)
+	else:
+		velocity.x = lerp(velocity.x,-knockback,0.5)
+		velocity.y = lerp(velocity.y,-knockup,0.5)
+	velocity = move_and_slide(velocity,Vector2.UP)

@@ -24,3 +24,7 @@ func _ready():
 			s.get_child(0).texture = s.get_child(0).thisData.holdItem.icon
 			s.slotType = 6
 		$GridContainer.add_child(s)
+
+
+func _on_Button_toggled(button_pressed):
+	visible = button_pressed

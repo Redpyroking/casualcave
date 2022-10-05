@@ -7,15 +7,23 @@ enum Job {Mage,Warlock,Warrior,Archer,Trickster,Tank,Healer}
 export (Job) var JobType
 var status = []
 var max_hp = 100
-var hp
 onready var healthBar = $healthBar
+var motion = Vector2()
+const GRAVITY = 600
+var speed = 40
+
+var knockback = 100
+var knockup = 300
+var jump = false
 
 func _ready():
 	hp = max_hp
 	healthBar.max_value = max_hp
 	healthBar.value = hp
+	motion.x = speed
 
 func _physics_process(delta):
+	movement(delta)
 	if status.has("burn"):
 		if hp > 0:
 			if checkHealth("burn") == 1 and $healthTimer.is_stopped():
@@ -31,7 +39,28 @@ func _physics_process(delta):
 	healthBar.value = hp
 	if hp < 1:
 		queue_free()
-	print(status)
+#	print(status)
+
+func hurt(value):
+	hp -= value
+
+func movement(delta):
+	if !is_on_floor():
+		motion.y += GRAVITY * delta
+		motion.y = min(motion.y, 300)
+	else:
+		motion.y = 0
+	if $floorRay.is_colliding():
+		jump = false
+		$floorRay.enabled = false
+	if !jump:
+		if !$RayCast2D.is_colliding():
+			motion.x *= -1
+			scale.x *= -1
+	if $wallCast.is_colliding():
+		motion.x *= -1
+		scale.x *= -1
+	move_and_slide(motion,Vector2.UP)
 
 func burn():
 	if status.has("wet"):
@@ -68,3 +97,13 @@ func _on_burnTime_timeout():
 
 func _on_poisonTime_timeout():
 	status.erase("poison")
+
+func _on_hitbox_area_entered(area):
+	if area.is_in_group("player"):
+		area.get_parent().knock(global_position>area.global_position)
+
+func knock(distance_bool):
+	jump = true
+	$floorRay.enabled = true
+	motion.y = lerp(motion.y,-knockup,0.5)
+	motion = move_and_slide(motion,Vector2.UP)

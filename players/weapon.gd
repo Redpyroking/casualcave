@@ -33,13 +33,19 @@ func attack():
 					if m.has_method("addMagic"):
 						m.addMagic(staff_magic1_data.holdItem.function)
 
+var melee_attacking = false
+
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "swing":
 		$AnimationPlayer.play("RESET")
-
+		melee_attacking = false
 
 func _on_Area2D_body_entered(body):
 	if body is TileMap:
 		pass
-	else:
-		print(body)
+
+func _on_Area2D_area_entered(area):
+	if area.is_in_group("enemy") and !melee_attacking:
+		area.get_parent().knock(global_position > area.global_position)
+		area.get_parent().hurt(6)
+		melee_attacking = true
