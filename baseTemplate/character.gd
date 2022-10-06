@@ -15,6 +15,11 @@ var speed = 40
 var knockback = 100
 var knockup = 300
 var jump = false
+var playerNear = false
+
+enum state_movement {IDLE,CHASE,JUMP,PICKUP,RETREAT,SEARCH}
+export (state_movement) var STATE_MOVE
+enum state_attack {IDLE,ATTACK}
 
 func _ready():
 	hp = max_hp
@@ -24,6 +29,7 @@ func _ready():
 
 func _physics_process(delta):
 	movement(delta)
+	$Label.text = str(state_movement.keys()[STATE_MOVE])
 	if status.has("burn"):
 		if hp > 0:
 			if checkHealth("burn") == 1 and $healthTimer.is_stopped():
@@ -107,3 +113,4 @@ func knock(distance_bool):
 	$floorRay.enabled = true
 	motion.y = lerp(motion.y,-knockup,0.5)
 	motion = move_and_slide(motion,Vector2.UP)
+

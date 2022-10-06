@@ -42,8 +42,10 @@ Global="*res://Global.gd"
 
 [display]
 
-window/size/test_width=612
-window/size/test_height=400
+window/size/width=612
+window/size/height=400
+window/size/test_width=1224
+window/size/test_height=800
 window/handheld/orientation="portrait"
 window/stretch/mode="2d"
 window/stretch/aspect="expand"
