@@ -14,12 +14,14 @@ var speed = 40
 
 var knockback = 100
 var knockup = 300
-var jump = false
 var playerNear = false
+var can_jump = true
 
-enum state_movement {IDLE,CHASE,JUMP,PICKUP,RETREAT,SEARCH}
+enum state_movement {IDLE,MOVE,FALL,CHASE,JUMP,KNOCKBACK,KNOCKUP,PICKUP,RETREAT,SEARCH}
 export (state_movement) var STATE_MOVE
 enum state_attack {IDLE,ATTACK}
+
+var is_moving = true
 
 func _ready():
 	hp = max_hp
@@ -28,7 +30,9 @@ func _ready():
 	motion.x = speed
 
 func _physics_process(delta):
-	movement(delta)
+	falling(delta)
+	if is_moving:
+		movement(delta)
 	$Label.text = str(state_movement.keys()[STATE_MOVE])
 	if status.has("burn"):
 		if hp > 0:
@@ -51,22 +55,13 @@ func hurt(value):
 	hp -= value
 
 func movement(delta):
+	move_and_slide(motion,Vector2.UP)
+
+func falling(delta):
 	if !is_on_floor():
 		motion.y += GRAVITY * delta
-		motion.y = min(motion.y, 300)
 	else:
-		motion.y = 0
-	if $floorRay.is_colliding():
-		jump = false
-		$floorRay.enabled = false
-	if !jump:
-		if !$RayCast2D.is_colliding():
-			motion.x *= -1
-			scale.x *= -1
-	if $wallCast.is_colliding():
-		motion.x *= -1
-		scale.x *= -1
-	move_and_slide(motion,Vector2.UP)
+		motion.y += 0
 
 func burn():
 	if status.has("wet"):
@@ -109,8 +104,7 @@ func _on_hitbox_area_entered(area):
 		area.get_parent().knock(global_position>area.global_position)
 
 func knock(distance_bool):
-	jump = true
-	$floorRay.enabled = true
+	can_jump = false
 	motion.y = lerp(motion.y,-knockup,0.5)
 	motion = move_and_slide(motion,Vector2.UP)
 

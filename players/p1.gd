@@ -27,6 +27,9 @@ onready var animatedSprite: = $Sprite
 onready var jumpBufferTimer: = $BufferJump
 onready var coyoteJumpTimer: = $Coyote
 
+func _ready():
+	Global.Player = self
+
 func _physics_process(delta):
 	var input = Vector2.ZERO
 	input.x = Input.get_axis("ui_left", "ui_right")

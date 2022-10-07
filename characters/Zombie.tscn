@@ -27,8 +27,8 @@ shape = SubResource( 1 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
 
-[node name="RayCast2D" type="RayCast2D" parent="." index="5"]
-position = Vector2( 14, 16 )
+[node name="emptyGroundCheck" type="RayCast2D" parent="." index="5"]
+position = Vector2( 16, 16 )
 enabled = true
 cast_to = Vector2( 0, 5 )
 collision_mask = 8
@@ -47,19 +47,19 @@ collision_mask = 17
 position = Vector2( 0, 2 )
 shape = SubResource( 4 )
 
-[node name="floorRay" type="RayCast2D" parent="." index="8"]
-position = Vector2( 0, 17 )
-cast_to = Vector2( 0, 5 )
-
-[node name="healthBar" parent="." index="9"]
+[node name="healthBar" parent="." index="8"]
 custom_styles/fg = SubResource( 2 )
 custom_styles/bg = SubResource( 3 )
 value = 50.0
 
-[node name="playerDetect" parent="." index="10"]
+[node name="playerDetect" parent="." index="9"]
+position = Vector2( 0, -5 )
 collision_layer = 2
 
-[node name="Label" type="Label" parent="." index="11"]
+[node name="CollisionShape2D" parent="playerDetect" index="0"]
+position = Vector2( 69.5, 2 )
+
+[node name="Label" type="Label" parent="." index="10"]
 margin_left = -19.0
 margin_top = -39.0
 margin_right = 21.0
