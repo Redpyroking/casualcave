@@ -22,15 +22,20 @@ var on_door = false
 
 var knockback = 400
 var knockup = 300
+var hp = 100
 
 onready var animatedSprite: = $Sprite
 onready var jumpBufferTimer: = $BufferJump
 onready var coyoteJumpTimer: = $Coyote
+onready var healthBar = $healthBar
 
 func _ready():
 	Global.Player = self
+	healthBar.max_value = hp
+	healthBar.value = hp
 
 func _physics_process(delta):
+	healthBar.value = hp
 	var input = Vector2.ZERO
 	input.x = Input.get_axis("ui_left", "ui_right")
 	input.y = Input.get_axis("ui_up", "ui_down")
@@ -172,3 +177,4 @@ func knock(distance_bool):
 		velocity.x = lerp(velocity.x,-knockback,0.5)
 		velocity.y = lerp(velocity.y,-knockup,0.5)
 	velocity = move_and_slide(velocity,Vector2.UP)
+	hp -= 6

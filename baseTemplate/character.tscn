@@ -5,13 +5,13 @@
 [ext_resource path="res://baseTemplate/State.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 73.5, 68 )
+extents = Vector2( 135.5, 68 )
 
 [node name="character" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 ClassType = 0
 JobType = 0
-STATE_MOVE = 0
+STATE = 0
 
 [node name="State" type="Node" parent="." index="0"]
 script = ExtResource( 3 )

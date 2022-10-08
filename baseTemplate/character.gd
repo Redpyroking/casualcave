@@ -17,9 +17,8 @@ var knockup = 300
 var playerNear = false
 var can_jump = true
 
-enum state_movement {IDLE,MOVE,FALL,CHASE,JUMP,KNOCKBACK,KNOCKUP,PICKUP,RETREAT,SEARCH}
-export (state_movement) var STATE_MOVE
-enum state_attack {IDLE,ATTACK}
+enum all_state {IDLE,MOVE,CHASE,SEARCH,HURT,FIGHT,SLEEP,PICKUP,RETREAT}
+export (all_state) var STATE
 
 var is_moving = true
 
@@ -33,7 +32,7 @@ func _physics_process(delta):
 	falling(delta)
 	if is_moving:
 		movement(delta)
-	$Label.text = str(state_movement.keys()[STATE_MOVE])
+	$Label.text = str(all_state.keys()[STATE])
 	if status.has("burn"):
 		if hp > 0:
 			if checkHealth("burn") == 1 and $healthTimer.is_stopped():
@@ -62,6 +61,8 @@ func falling(delta):
 		motion.y += GRAVITY * delta
 	else:
 		motion.y += 0
+	if !can_jump and $checkFloor.is_colliding():
+		can_jump = true 
 
 func burn():
 	if status.has("wet"):
@@ -102,6 +103,11 @@ func _on_poisonTime_timeout():
 func _on_hitbox_area_entered(area):
 	if area.is_in_group("player"):
 		area.get_parent().knock(global_position>area.global_position)
+
+func jump():
+	if can_jump:
+		motion.y -= 75
+		can_jump = false
 
 func knock(distance_bool):
 	can_jump = false

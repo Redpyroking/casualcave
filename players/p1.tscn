@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://players/p1.gd" type="Script" id=1]
 [ext_resource path="res://players/p1.png" type="Texture" id=2]
@@ -8,6 +8,12 @@
 extents = Vector2( 8, 12 )
 
 [sub_resource type="RectangleShape2D" id=2]
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.219608, 0.870588, 0.352941, 1 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.176471, 0.176471, 0.176471, 1 )
 
 [node name="player" type="KinematicBody2D"]
 collision_mask = 8
@@ -45,6 +51,16 @@ shape = SubResource( 2 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+
+[node name="healthBar" type="ProgressBar" parent="."]
+margin_left = -24.0
+margin_top = -24.0
+margin_right = 24.0
+margin_bottom = -18.0
+custom_styles/fg = SubResource( 3 )
+custom_styles/bg = SubResource( 4 )
+value = 50.0
+percent_visible = false
 
 [connection signal="timeout" from="BufferJump" to="." method="_on_BufferJump_timeout"]
 [connection signal="timeout" from="Coyote" to="." method="_on_Coyote_timeout"]
