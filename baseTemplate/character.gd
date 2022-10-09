@@ -57,7 +57,7 @@ func movement(delta):
 	move_and_slide(motion,Vector2.UP)
 
 func falling(delta):
-	if !is_on_floor():
+	if !is_on_floor() or is_on_ceiling():
 		motion.y += GRAVITY * delta
 	else:
 		motion.y += 0
@@ -106,7 +106,7 @@ func _on_hitbox_area_entered(area):
 
 func jump():
 	if can_jump:
-		motion.y -= 75
+		motion.y -= 80
 		can_jump = false
 
 func knock(distance_bool):
