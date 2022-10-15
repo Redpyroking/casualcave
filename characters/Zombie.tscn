@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://baseTemplate/character.tscn" type="PackedScene" id=1]
 [ext_resource path="res://asset/enemies/zombie.png" type="Texture" id=2]
@@ -15,9 +15,12 @@ bg_color = Color( 0.219608, 0.870588, 0.352941, 1 )
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.176471, 0.176471, 0.176471, 1 )
 
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 32, 24 )
+
 [node name="Zombie" instance=ExtResource( 1 )]
 collision_layer = 2
-collision_mask = 9
+collision_mask = 8
 
 [node name="StateTimer" type="Timer" parent="State" index="0"]
 wait_time = 16.0
@@ -33,7 +36,7 @@ texture = ExtResource( 2 )
 
 [node name="hitbox" type="Area2D" parent="." index="5" groups=["enemy", "zombie"]]
 collision_layer = 2
-collision_mask = 17
+collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox" index="0"]
 position = Vector2( 0, 2 )
@@ -45,11 +48,10 @@ custom_styles/bg = SubResource( 3 )
 value = 50.0
 
 [node name="playerDetect" parent="." index="7"]
-position = Vector2( 39, 3 )
 collision_layer = 2
 
 [node name="CollisionShape2D" parent="playerDetect" index="0"]
-position = Vector2( 135, 0 )
+position = Vector2( 107.75, -4 )
 
 [node name="Label" type="Label" parent="." index="8"]
 margin_left = -19.0
@@ -57,10 +59,6 @@ margin_top = -39.0
 margin_right = 21.0
 margin_bottom = -25.0
 text = "IDLE"
-
-[node name="wallJumpCheck" parent="." index="9"]
-position = Vector2( 8, -32 )
-cast_to = Vector2( 18, 0 )
 
 [node name="checkFloor" type="RayCast2D" parent="." index="10"]
 position = Vector2( 8, 16 )
@@ -86,7 +84,23 @@ enabled = true
 cast_to = Vector2( -10, 0 )
 collision_mask = 8
 
+[node name="wallJumpCheck" type="RayCast2D" parent="." index="14"]
+position = Vector2( 0, -24 )
+enabled = true
+cast_to = Vector2( 32, 0 )
+collision_mask = 8
+
+[node name="combatArea" type="Area2D" parent="." index="15"]
+position = Vector2( -24, 0 )
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="combatArea" index="0"]
+position = Vector2( 24, -8 )
+shape = SubResource( 5 )
+
 [connection signal="timeout" from="State/StateTimer" to="State" method="_on_StateTimer_timeout"]
 [connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_entered" from="playerDetect" to="State" method="_on_playerDetect_area_entered"]
 [connection signal="area_exited" from="playerDetect" to="State" method="_on_playerDetect_area_exited"]
+[connection signal="area_entered" from="combatArea" to="State" method="_on_combatArea_area_entered"]
+[connection signal="area_exited" from="combatArea" to="State" method="_on_combatArea_area_exited"]

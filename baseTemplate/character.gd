@@ -17,7 +17,7 @@ var knockup = 300
 var playerNear = false
 var can_jump = true
 
-enum all_state {IDLE,MOVE,CHASE,SEARCH,HURT,FIGHT,SLEEP,PICKUP,RETREAT}
+enum all_state {IDLE,MOVE,CHASE,SEARCH,COMBAT,HURT,FIGHT,SLEEP,PICKUP,RETREAT}
 export (all_state) var STATE
 
 var is_moving = true

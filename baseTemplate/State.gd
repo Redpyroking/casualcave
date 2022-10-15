@@ -3,6 +3,7 @@ extends Node
 onready var parent = get_parent()
 onready var playerDetect = $"../playerDetect"
 var playerNear = false
+var inCombatArea = false
 var timeIdle = 0
 var startTimer = true
 
@@ -11,13 +12,13 @@ func _ready():
 	call_deferred("change_state",parent.all_state.MOVE)
 
 func _physics_process(delta):
-	print($StateTimer.time_left)
 	match parent.STATE:
 		parent.all_state.IDLE:
-			pass
 			if playerNear:
 				parent.is_moving = true
 				change_state(parent.all_state.CHASE)
+			elif inCombatArea:
+				change_state(parent.all_state.COMBAT)
 #			if !parent.is_moving:
 #				yield(get_tree().create_timer(rand_range(1,4)),"timeout")
 #				change_state(parent.all_state.MOVE)
@@ -26,9 +27,11 @@ func _physics_process(delta):
 #				parent.scale.x *= -1
 #				change_state(parent.all_state.MOVE)
 		parent.all_state.MOVE:
-			if playerNear:
+			if inCombatArea:
+				change_state(parent.all_state.COMBAT)
+			elif playerNear:
 				change_state(parent.all_state.CHASE)
-			if (parent.get_node("checkBackOccupied").is_colliding() and parent.get_node("checkWall").is_colliding() and parent.get_node("wallJumpCheck").is_colliding()):
+			elif (parent.get_node("checkBackOccupied").is_colliding() and parent.get_node("checkWall").is_colliding() and parent.get_node("wallJumpCheck").is_colliding()):
 				parent.motion.x *= -1
 				parent.scale.x *= -1
 				yield(get_tree().create_timer(0.2),"timeout")
@@ -46,12 +49,18 @@ func _physics_process(delta):
 		parent.all_state.CHASE:
 			if !parent.get_node("wallJumpCheck").is_colliding() and parent.get_node("checkWall").is_colliding():
 				parent.jump()
-			if !playerNear:
-				change_state(parent.all_state.SEARCH)
-			if parent.get_node("wallJumpCheck").is_colliding() and !parent.get_node("checkFloor").is_colliding():
+			elif parent.get_node("wallJumpCheck").is_colliding() and !parent.get_node("checkFloor").is_colliding():
 				change_state(parent.all_state.IDLE)
+			elif inCombatArea:
+				change_state(parent.all_state.COMBAT)
+			elif playerNear:
+				change_state(parent.all_state.CHASE)
+			else:
+				change_state(parent.all_state.SEARCH)
 		parent.all_state.SEARCH:
-			if playerNear:
+			if inCombatArea:
+				change_state(parent.all_state.COMBAT)
+			elif playerNear:
 				$StateTimer.stop()
 				startTimer = true
 				change_state(parent.all_state.CHASE)
@@ -79,6 +88,16 @@ func _physics_process(delta):
 				if startTimer:
 					$StateTimer.start()
 					startTimer = false
+		parent.all_state.COMBAT:
+			if !inCombatArea:
+				change_state(parent.all_state.MOVE)
+			else:
+				if Global.Player.global_position.x > parent.global_position.x and parent.scale.y == -1:
+					parent.motion.x *= -1
+					parent.scale.x = -1
+				elif Global.Player.global_position.x < parent.global_position.x and parent.scale.y == 1:
+					parent.motion.x *= -1
+					parent.scale.x = -1
 
 func change_state(new_state):
 	parent.STATE = new_state
@@ -98,3 +117,12 @@ func _on_StateTimer_timeout():
 		else:
 			change_state(parent.all_state.CHASE)
 	startTimer = true
+
+
+func _on_combatArea_area_entered(area):
+	if area.is_in_group("player"):
+		inCombatArea = true
+
+func _on_combatArea_area_exited(area):
+	if area.is_in_group("player"):
+		inCombatArea = false
