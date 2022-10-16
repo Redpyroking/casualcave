@@ -9,8 +9,10 @@ func init(pos,isDirRight):
 	set_as_toplevel(true)
 	if isDirRight:
 		direction = Vector2.RIGHT
+		scale.x = 1
 	else:
 		direction = Vector2.LEFT
+		scale.x = -1
 
 func _process(delta):
 	translate(direction*speed*delta)

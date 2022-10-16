@@ -1,9 +1,39 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://players/MagicalOrb.gd" type="Script" id=2]
+[ext_resource path="res://players/Flame.png" type="Texture" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
+
+[sub_resource type="CanvasItemMaterial" id=2]
+blend_mode = 1
+
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0.010101, 0.50505, 1 )
+colors = PoolColorArray( 1, 0.499582, 0.117188, 1, 0.957031, 0.642188, 0.0411224, 1, 1, 0.968872, 0.203125, 1 )
+
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
+width = 100
+
+[sub_resource type="Curve" id=6]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.95082, 0.3083 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=7]
+curve = SubResource( 6 )
+
+[sub_resource type="ParticlesMaterial" id=5]
+flag_disable_z = true
+gravity = Vector3( -98, 0, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 5.0
+angle = 90.0
+scale = 0.1
+scale_random = 0.1
+scale_curve = SubResource( 7 )
+color_ramp = SubResource( 4 )
 
 [node name="MagicalOrb" type="Area2D"]
 collision_layer = 16
@@ -11,6 +41,7 @@ collision_mask = 10
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
+visible = false
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 1 )
 
@@ -18,6 +49,15 @@ texture = ExtResource( 1 )
 shape = SubResource( 1 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
+[node name="Particles2D" type="Particles2D" parent="."]
+material = SubResource( 2 )
+amount = 20
+lifetime = 0.7
+speed_scale = 2.0
+randomness = 0.1
+process_material = SubResource( 5 )
+texture = ExtResource( 3 )
 
 [connection signal="body_entered" from="." to="." method="_on_MagicalOrb_body_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

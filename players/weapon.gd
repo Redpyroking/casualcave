@@ -28,7 +28,7 @@ func attack():
 				m.init(global_position,!get_parent().get_parent().get_node("Sprite").flip_h)
 				add_child(m)
 				var staff_magic1_data = Global.StaffEquipment.grid.get_child(0).item.thisData
-				var staff_magic2_data = Global.StaffEquipment.grid.get_child(1).item.thisData
+#				var staff_magic2_data = Global.StaffEquipment.grid.get_child(1).item.thisData
 				if staff_magic1_data.holdItem:
 					if m.has_method("addMagic"):
 						m.addMagic(staff_magic1_data.holdItem.function)

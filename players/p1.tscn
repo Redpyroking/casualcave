@@ -1,11 +1,41 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://players/p1.gd" type="Script" id=1]
 [ext_resource path="res://players/p1.png" type="Texture" id=2]
 [ext_resource path="res://players/weapon.tscn" type="PackedScene" id=3]
+[ext_resource path="res://players/playerAttack.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8.5, 13.5 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 4 )
+region = Rect2( 16, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 4 )
+region = Rect2( 32, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="SpriteFrames" id=9]
+animations = [ {
+"frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ) ],
+"loop": true,
+"name": "attack",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 8 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 11, 14 )
@@ -25,9 +55,9 @@ hp = 100
 position = Vector2( 0.5, 2.5 )
 shape = SubResource( 1 )
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Sprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 2, 2 )
-texture = ExtResource( 2 )
+frames = SubResource( 9 )
 
 [node name="BufferJump" type="Timer" parent="."]
 wait_time = 0.2
@@ -66,5 +96,6 @@ custom_styles/bg = SubResource( 4 )
 value = 50.0
 percent_visible = false
 
+[connection signal="animation_finished" from="Sprite" to="." method="_on_Sprite_animation_finished"]
 [connection signal="timeout" from="BufferJump" to="." method="_on_BufferJump_timeout"]
 [connection signal="timeout" from="Coyote" to="." method="_on_Coyote_timeout"]

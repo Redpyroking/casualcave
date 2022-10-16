@@ -109,15 +109,14 @@ func jump():
 		can_jump = false
 
 func knock(distance_bool):
-	can_jump = false
-	motion.y = lerp(motion.y,-knockup,0.5)
-	motion = move_and_slide(motion,Vector2.UP)
-
+	pass
+#	can_jump = false
+#	motion.x = lerp(motion.x,-knockup,0.5)
+#	motion = move_and_slide(motion,Vector2.UP)
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "attack":
 		$AnimationPlayer.play("RESET")
-
 
 func _on_AttackBox_area_entered(area):
 	if area.is_in_group("player"):

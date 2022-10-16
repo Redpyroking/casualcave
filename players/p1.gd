@@ -93,7 +93,11 @@ func move_state(input, delta):
 	attack()
 
 func attack():
-	if Input.is_action_just_pressed("attack") and !$weaponPos/weapon/AnimationPlayer.is_playing():
+	if Input.is_action_just_pressed("attack") and $weaponPos/weapon.weaponRes.holdItem == null:
+		$Sprite.play("attack")
+		$weaponPos/weapon/AnimationPlayer.play("swing")
+		$weaponPos/weapon.attack()
+	elif Input.is_action_just_pressed("attack") and !$weaponPos/weapon/AnimationPlayer.is_playing():
 		$weaponPos/weapon/AnimationPlayer.play("swing")
 		$weaponPos/weapon.attack()
 
@@ -177,3 +181,8 @@ func knock(distance_bool):
 		velocity.y = lerp(velocity.y,-knockup,0.5)
 	velocity = move_and_slide(velocity,Vector2.UP)
 	hp -= 6
+
+
+func _on_Sprite_animation_finished():
+	if $Sprite.animation == "attack":
+		$Sprite.play("default")
