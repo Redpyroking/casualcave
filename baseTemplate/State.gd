@@ -47,10 +47,18 @@ func _physics_process(delta):
 			elif parent.get_node("checkWall").is_colliding() and !parent.get_node("wallJumpCheck").is_colliding():
 				parent.jump()
 		parent.all_state.CHASE:
-			if !parent.get_node("wallJumpCheck").is_colliding() and parent.get_node("checkWall").is_colliding():
-				parent.jump()
+			var dist_from_player = parent.global_position.distance_to(Global.Player.global_position)
+			var y_dist_from_player = abs(parent.global_position.y - Global.Player.global_position.y)
+			if Global.Player.global_position.x > parent.global_position.x and parent.scale.y == -1 and dist_from_player>12:
+				parent.motion.x *= -1
+				parent.scale.x = -1
+			elif Global.Player.global_position.x < parent.global_position.x and parent.scale.y == 1 and dist_from_player>12:
+				parent.motion.x *= -1
+				parent.scale.x = -1
 			elif parent.get_node("wallJumpCheck").is_colliding() and !parent.get_node("checkFloor").is_colliding():
 				change_state(parent.all_state.IDLE)
+			elif !parent.get_node("wallJumpCheck").is_colliding() and parent.get_node("checkWall").is_colliding():
+				parent.jump()
 			elif inCombatArea:
 				change_state(parent.all_state.COMBAT)
 			elif playerNear:
@@ -90,14 +98,14 @@ func _physics_process(delta):
 					startTimer = false
 		parent.all_state.COMBAT:
 			if !inCombatArea:
+				parent.is_moving = true
 				change_state(parent.all_state.MOVE)
 			else:
-				if Global.Player.global_position.x > parent.global_position.x and parent.scale.y == -1:
-					parent.motion.x *= -1
-					parent.scale.x = -1
-				elif Global.Player.global_position.x < parent.global_position.x and parent.scale.y == 1:
-					parent.motion.x *= -1
-					parent.scale.x = -1
+				var anim = parent.get_node("AnimationPlayer")
+				if !anim.is_playing():
+					parent.is_moving = false
+					parent.get_node("AnimationPlayer").play("attack")
+			
 
 func change_state(new_state):
 	parent.STATE = new_state
@@ -117,7 +125,6 @@ func _on_StateTimer_timeout():
 		else:
 			change_state(parent.all_state.CHASE)
 	startTimer = true
-
 
 func _on_combatArea_area_entered(area):
 	if area.is_in_group("player"):

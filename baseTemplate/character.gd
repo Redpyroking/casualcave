@@ -10,7 +10,7 @@ var max_hp = 100
 onready var healthBar = $healthBar
 var motion = Vector2()
 const GRAVITY = 600
-var speed = 40
+export var speed = 40
 
 var knockback = 100
 var knockup = 300
@@ -101,8 +101,7 @@ func _on_poisonTime_timeout():
 	status.erase("poison")
 
 func _on_hitbox_area_entered(area):
-	if area.is_in_group("player"):
-		area.get_parent().knock(global_position>area.global_position)
+	pass
 
 func jump():
 	if can_jump:
@@ -114,3 +113,15 @@ func knock(distance_bool):
 	motion.y = lerp(motion.y,-knockup,0.5)
 	motion = move_and_slide(motion,Vector2.UP)
 
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	if anim_name == "attack":
+		$AnimationPlayer.play("RESET")
+
+
+func _on_AttackBox_area_entered(area):
+	if area.is_in_group("player"):
+		area.get_parent().knock(global_position>area.global_position)
+
+func _on_AttackBox_area_exited(area):
+	pass # Replace with function body.

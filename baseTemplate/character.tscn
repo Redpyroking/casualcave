@@ -1,22 +1,183 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://baseTemplate/entity.tscn" type="PackedScene" id=1]
 [ext_resource path="res://baseTemplate/character.gd" type="Script" id=2]
 [ext_resource path="res://baseTemplate/State.gd" type="Script" id=3]
+[ext_resource path="res://asset/enemies/skeletonAttack.png" type="Texture" id=4]
+[ext_resource path="res://asset/enemies/skeleton.png" type="Texture" id=5]
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 4 )
+region = Rect2( 16, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 4 )
+region = Rect2( 32, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=16]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="SpriteFrames" id=11]
+animations = [ {
+"frames": [ SubResource( 13 ), SubResource( 14 ), SubResource( 15 ) ],
+"loop": true,
+"name": "attack",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 16 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.219608, 0.870588, 0.352941, 1 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.176471, 0.176471, 0.176471, 1 )
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 108.25, 44 )
+extents = Vector2( 64, 20 )
+
+[sub_resource type="RectangleShape2D" id=17]
+extents = Vector2( 8, 16 )
+
+[sub_resource type="RectangleShape2D" id=18]
+extents = Vector2( 8, 8 )
+
+[sub_resource type="Animation" id=4]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ "default" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AttackBox:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -8, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("AttackBox/CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "attack"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "attack" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AttackBox:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -16, 0 ), Vector2( -16, 8 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("AttackBox/CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true ]
+}
+
+[sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 9, 13 )
+
+[sub_resource type="RectangleShape2D" id=12]
+extents = Vector2( 8, 14 )
 
 [node name="character" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 ClassType = 0
 JobType = 0
+speed = 40
 STATE = 0
 
-[node name="State" type="Node" parent="." index="0"]
+[node name="Sprite" type="AnimatedSprite" parent="." index="0"]
+scale = Vector2( 2, 2 )
+frames = SubResource( 11 )
+
+[node name="State" type="Node" parent="." index="1"]
 script = ExtResource( 3 )
 
-[node name="StatusTimers" type="Node" parent="." index="1"]
+[node name="StateTimer" type="Timer" parent="State" index="0"]
+wait_time = 16.0
+one_shot = true
+
+[node name="StatusTimers" type="Node" parent="." index="2"]
 
 [node name="burnTime" type="Timer" parent="StatusTimers" index="0"]
 wait_time = 4.0
@@ -33,18 +194,110 @@ margin_left = -24.0
 margin_top = -24.0
 margin_right = 24.0
 margin_bottom = -18.0
+custom_styles/fg = SubResource( 2 )
+custom_styles/bg = SubResource( 3 )
+value = 50.0
 percent_visible = false
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="playerDetect" type="Area2D" parent="." index="5"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="playerDetect" index="0"]
-position = Vector2( 120, 4.75 )
+position = Vector2( 0, -4 )
 shape = SubResource( 1 )
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="waitTime" type="Timer" parent="." index="6"]
 one_shot = true
 
+[node name="checkFloor" type="RayCast2D" parent="." index="7"]
+position = Vector2( 8, 16 )
+enabled = true
+cast_to = Vector2( 0, 5 )
+collision_mask = 8
+
+[node name="floorFallCheck" type="RayCast2D" parent="." index="8"]
+position = Vector2( 16, 16 )
+enabled = true
+cast_to = Vector2( 0, 70 )
+collision_mask = 8
+
+[node name="checkWall" type="RayCast2D" parent="." index="9"]
+position = Vector2( 6, -8 )
+enabled = true
+cast_to = Vector2( 10, 0 )
+collision_mask = 8
+
+[node name="checkBackOccupied" type="RayCast2D" parent="." index="10"]
+position = Vector2( -16, -8 )
+enabled = true
+cast_to = Vector2( -10, 0 )
+collision_mask = 8
+
+[node name="wallJumpCheck" type="RayCast2D" parent="." index="11"]
+position = Vector2( 0, -24 )
+enabled = true
+cast_to = Vector2( 32, 0 )
+collision_mask = 8
+
+[node name="combatArea" type="Area2D" parent="." index="12"]
+position = Vector2( -24, 0 )
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="combatArea" index="0"]
+position = Vector2( 32, 0 )
+shape = SubResource( 17 )
+
+[node name="AttackBox" type="Area2D" parent="." index="13"]
+position = Vector2( -8, 0 )
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackBox" index="0"]
+position = Vector2( 24, -8 )
+shape = SubResource( 18 )
+disabled = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="14"]
+playback_speed = 0.5
+anims/RESET = SubResource( 4 )
+anims/attack = SubResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="15"]
+position = Vector2( 1, 3 )
+shape = SubResource( 10 )
+
+[node name="hitbox" type="Area2D" parent="." index="16" groups=["enemy", "zombie"]]
+collision_layer = 3
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox" index="0"]
+position = Vector2( 0, 2 )
+shape = SubResource( 12 )
+
+[node name="Label" type="Label" parent="." index="17"]
+visible = false
+margin_left = -19.0
+margin_top = -39.0
+margin_right = 21.0
+margin_bottom = -25.0
+text = "IDLE"
+
+[connection signal="timeout" from="State/StateTimer" to="State" method="_on_StateTimer_timeout"]
 [connection signal="timeout" from="StatusTimers/burnTime" to="." method="_on_burnTime_timeout"]
 [connection signal="timeout" from="StatusTimers/poisonTime" to="." method="_on_poisonTime_timeout"]
 [connection signal="timeout" from="healthTimer" to="." method="_on_healthTimer_timeout"]
+[connection signal="area_entered" from="playerDetect" to="State" method="_on_playerDetect_area_entered"]
+[connection signal="area_exited" from="playerDetect" to="State" method="_on_playerDetect_area_exited"]
 [connection signal="timeout" from="waitTime" to="State" method="_on_waitTime_timeout"]
+[connection signal="area_entered" from="combatArea" to="State" method="_on_combatArea_area_entered"]
+[connection signal="area_exited" from="combatArea" to="State" method="_on_combatArea_area_exited"]
+[connection signal="area_entered" from="AttackBox" to="." method="_on_AttackBox_area_entered"]
+[connection signal="area_exited" from="AttackBox" to="." method="_on_AttackBox_area_exited"]
+[connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]

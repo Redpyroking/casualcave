@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends "res://baseTemplate/entity.gd"
 class_name Player
 
 enum { MOVE, CLIMB }
@@ -22,7 +22,6 @@ var on_door = false
 
 var knockback = 400
 var knockup = 300
-var hp = 100
 
 onready var animatedSprite: = $Sprite
 onready var jumpBufferTimer: = $BufferJump
