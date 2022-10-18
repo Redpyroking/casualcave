@@ -34,8 +34,6 @@ func _on_MagicalOrb_body_entered(body):
 		match currentMagic:
 			"fire":
 				body.burn()
-				body.hurt(10)
 			"poison":
 				body.poison()
-				body.hurt(10)
 		queue_free()

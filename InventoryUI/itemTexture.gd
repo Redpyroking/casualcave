@@ -1,9 +1,11 @@
 extends TextureRect
 
-var thisData = {"holdItem":null}
+var thisData = {"holdItem":null,"itemType":null}
 
 func _ready():
 	randomize()
+	if thisData.holdItem != null:
+		thisData.itemType = thisData.holdItem.itemType
 #	thisData["holdItem"] = null
 
 func drop_data(position, data):
@@ -20,7 +22,12 @@ func drop_data(position, data):
 		texture = null
 
 func can_drop_data(position, data):
-	if data.get_parent().slotType == 0 or get_parent().slotType == 0 or data.get_parent().slotType == get_parent().slotType:
+	#data means other one you want to swap with
+	if get_parent().slotType == data.thisData.itemType or data.get_parent().slotType == thisData.itemType:
+		return true
+	elif get_parent().slotType == 0 and data.get_parent().slotType == 0:
+		return true
+	elif data.thisData.itemType == null or thisData.itemType == null:
 		return true
 	return false
 

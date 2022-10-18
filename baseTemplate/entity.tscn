@@ -1,6 +1,111 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://baseTemplate/entity.gd" type="Script" id=1]
 
+[sub_resource type="Animation" id=1]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("damageLabel:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("damageLabel:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -16, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("damageLabel:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "damageShow"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("damageLabel:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("damageLabel:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -16, 0 ), Vector2( -16, -24 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("damageLabel:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
 [node name="Entity" type="KinematicBody2D"]
 script = ExtResource( 1 )
+
+[node name="StatusTimers" type="Node" parent="."]
+
+[node name="burnTime" type="Timer" parent="StatusTimers"]
+wait_time = 4.0
+
+[node name="poisonTime" type="Timer" parent="StatusTimers"]
+wait_time = 15.0
+
+[node name="damageLabel" type="Label" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = -16.0
+margin_right = 47.0
+margin_bottom = 14.0
+rect_pivot_offset = Vector2( 32, 0 )
+text = "Immune"
+align = 1
+valign = 1
+percent_visible = -0.166667
+
+[node name="damageShowAnime" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 1 )
+anims/damageShow = SubResource( 3 )
+
+[connection signal="timeout" from="StatusTimers/burnTime" to="." method="_on_burnTime_timeout"]
+[connection signal="timeout" from="StatusTimers/poisonTime" to="." method="_on_poisonTime_timeout"]

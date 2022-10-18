@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://ResAllItems/abilities/BaseAbility.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+curseName = "Curse of Poison Immunity"
+blessName = "Blessing of Poison Immunity"
+alias = "Poison Immunity"
+idName = "poisonImmune"
+description = "User become immune to poisoning."

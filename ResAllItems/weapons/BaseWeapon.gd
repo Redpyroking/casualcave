@@ -5,6 +5,7 @@ class_name Weapon
 export (Texture) var icon
 export (String) var alias
 export (String) var idName
+export (int) var itemType = 4
 export (int) var level = 1
 export (int) var melee_damage
 enum Type {sword,bow,staff}

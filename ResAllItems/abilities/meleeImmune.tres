@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://ResAllItems/abilities/BaseAbility.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+curseName = "Curse of Melee Immunity"
+blessName = "Blessing of Melee Immunity"
+alias = "Melee Immunity"
+idName = "meleeImmune"
+description = "User become immune to melee attacks.."

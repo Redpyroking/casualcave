@@ -5,8 +5,6 @@ enum Class {human,elf,demon,dwarf,goblin,orc,orge,
 export(Class) var ClassType
 enum Job {Mage,Warlock,Warrior,Archer,Trickster,Tank,Healer}
 export (Job) var JobType
-var status = []
-var max_hp = 100
 onready var healthBar = $healthBar
 var motion = Vector2()
 const GRAVITY = 600
@@ -23,8 +21,8 @@ export (all_state) var STATE
 var is_moving = true
 
 func _ready():
-	hp = max_hp
-	healthBar.max_value = max_hp
+	hp = maxHp
+	healthBar.max_value = maxHp
 	healthBar.value = hp
 	motion.x = speed
 
@@ -48,10 +46,8 @@ func _physics_process(delta):
 	healthBar.value = hp
 	if hp < 1:
 		queue_free()
+	damageLabel.rect_scale.x = scale.y
 #	print(status)
-
-func hurt(value):
-	hp -= value
 
 func movement(delta):
 	move_and_slide(motion,Vector2.UP)
@@ -64,27 +60,6 @@ func falling(delta):
 	if !can_jump and $checkFloor.is_colliding():
 		can_jump = true 
 
-func burn():
-	if status.has("wet"):
-		status.erase("wet")
-		status.erase("burn")
-	elif status.has("burn"):
-		print("already burning")
-		$StatusTimers/burnTime.start()
-	else:
-		status.append("burn")
-		$StatusTimers/burnTime.start()
-		print("burning")
-
-func poison():
-	if status.has("poison"):
-		print("already poisoned")
-		$StatusTimers/poisonTime.start()
-	else:
-		status.append("poison")
-		$StatusTimers/poisonTime.start()
-		print("poisoned")
-
 func checkHealth(stat) -> int:
 	if status.has(stat):
 		return 1
@@ -93,12 +68,6 @@ func checkHealth(stat) -> int:
 
 func _on_healthTimer_timeout():
 	pass
-
-func _on_burnTime_timeout():
-	status.erase("burn")
-
-func _on_poisonTime_timeout():
-	status.erase("poison")
 
 func _on_hitbox_area_entered(area):
 	pass

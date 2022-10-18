@@ -9,3 +9,4 @@ icon = ExtResource( 2 )
 name = "Fireball"
 function = "fire"
 description = "Summon a ball of fire"
+itemType = 6

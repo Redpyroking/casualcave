@@ -10,6 +10,11 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Resource",
+"class": "Ability",
+"language": "GDScript",
+"path": "res://ResAllItems/abilities/BaseAbility.gd"
+}, {
+"base": "Resource",
 "class": "Glyph",
 "language": "GDScript",
 "path": "res://ResAllItems/spells/BaseGlyph.gd"
@@ -22,9 +27,10 @@ _global_script_classes=[ {
 "base": "Resource",
 "class": "Weapon",
 "language": "GDScript",
-"path": "res://BaseWeapon.gd"
+"path": "res://ResAllItems/weapons/BaseWeapon.gd"
 } ]
 _global_script_class_icons={
+"Ability": "",
 "Glyph": "",
 "Player": "",
 "Weapon": ""

@@ -30,6 +30,7 @@ onready var healthBar = $healthBar
 
 func _ready():
 	Global.Player = self
+	hp = maxHp
 	healthBar.max_value = hp
 	healthBar.value = hp
 

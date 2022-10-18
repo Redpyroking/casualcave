@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://players/p1.gd" type="Script" id=1]
 [ext_resource path="res://players/p1.png" type="Texture" id=2]
@@ -46,10 +46,88 @@ bg_color = Color( 0.219608, 0.870588, 0.352941, 1 )
 [sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0.176471, 0.176471, 0.176471, 1 )
 
+[sub_resource type="Animation" id=10]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("damageLabel:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("damageLabel:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -16, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("damageLabel:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=11]
+resource_name = "damageShow"
+tracks/0/type = "value"
+tracks/0/path = NodePath("damageLabel:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("damageLabel:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -16, 0 ), Vector2( -16, -24 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("damageLabel:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
 [node name="player" type="KinematicBody2D"]
 collision_mask = 8
 script = ExtResource( 1 )
-hp = 100
+maxHp = 100
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0.5, 2.5 )
@@ -95,6 +173,19 @@ custom_styles/fg = SubResource( 3 )
 custom_styles/bg = SubResource( 4 )
 value = 50.0
 percent_visible = false
+
+[node name="damageLabel" type="Label" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = -16.0
+margin_right = 24.0
+margin_bottom = 14.0
+text = "60"
+align = 1
+valign = 1
+
+[node name="damageShowAnime" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 10 )
+anims/damageShow = SubResource( 11 )
 
 [connection signal="animation_finished" from="Sprite" to="." method="_on_Sprite_animation_finished"]
 [connection signal="timeout" from="BufferJump" to="." method="_on_BufferJump_timeout"]

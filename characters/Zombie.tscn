@@ -148,6 +148,7 @@ extents = Vector2( 8, 14 )
 [node name="Zombie" instance=ExtResource( 1 )]
 collision_layer = 2
 collision_mask = 8
+maxHp = 80
 
 [node name="Sprite" parent="." index="0"]
 frames = SubResource( 10 )
@@ -170,5 +171,13 @@ shape = SubResource( 1 )
 
 [node name="CollisionShape2D" parent="hitbox" index="0"]
 shape = SubResource( 4 )
+
+[node name="damageLabel" parent="." index="19"]
+margin_right = 47.0
+text = "Immune"
+percent_visible = 1.0
+__meta__ = {
+"_editor_description_": ""
+}
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

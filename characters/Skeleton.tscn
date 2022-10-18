@@ -5,7 +5,16 @@
 [node name="Skeleton" instance=ExtResource( 1 )]
 collision_layer = 2
 collision_mask = 8
+maxHp = 40
 speed = 70
 
 [node name="playerDetect" parent="." index="5"]
 collision_layer = 2
+
+[node name="damageLabel" parent="." index="19"]
+margin_right = 47.0
+text = "Immune"
+percent_visible = 1.0
+__meta__ = {
+"_editor_description_": ""
+}
