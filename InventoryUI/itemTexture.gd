@@ -27,9 +27,7 @@ func can_drop_data(position, data):
 		return true
 	elif get_parent().slotType == 0 and data.get_parent().slotType == 0:
 		return true
-	elif data.thisData.itemType == null and data.get_parent().slotType == 0 and (thisData.itemType == get_parent().slotType):
-		return true
-	elif thisData.itemType == null and get_parent().slotType == 0 and (data.thisData.itemType == data.get_parent().slotType):
+	elif data.thisData.itemType == null or thisData.itemType == null:
 		return true
 	return false
 
