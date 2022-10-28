@@ -3,8 +3,13 @@ extends Area2D
 var direction = Vector2.RIGHT
 var speed = 400
 var currentMagic = null
+var selfModulate = Color(1,1,1)
 
 func init(pos,isDirRight):
+	if currentMagic:
+		modulate = selfModulate
+	else:
+		modulate = Color(1,1,1)
 	global_position = pos
 	set_as_toplevel(true)
 	if isDirRight:
@@ -16,16 +21,19 @@ func init(pos,isDirRight):
 
 func _process(delta):
 	translate(direction*speed*delta)
+	modulate = selfModulate
 
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 
-func addMagic(magic):
-	match magic:
-		"fire":
-			currentMagic = "fire"
-		"poison":
-			currentMagic = "poison"
+func addMagic(magic,modulation):
+	currentMagic = str(magic)
+	selfModulate = modulation
+#match magic:
+#		"fire":
+#			currentMagic = "fire"
+#		"poison":
+#			currentMagic = "poison"
 
 func _on_MagicalOrb_body_entered(body):
 	if body is TileMap:

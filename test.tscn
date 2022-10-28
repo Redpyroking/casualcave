@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://players/p1.tscn" type="PackedScene" id=1]
 [ext_resource path="res://tileset/tileset.tres" type="TileSet" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://characters/Skeleton.tscn" type="PackedScene" id=8]
 [ext_resource path="res://ResAllItems/abilities/fireImmune.tres" type="Resource" id=9]
 [ext_resource path="res://ResAllItems/abilities/meleeImmune.tres" type="Resource" id=10]
+[ext_resource path="res://objects/chest.tscn" type="PackedScene" id=11]
+[ext_resource path="res://InventoryUI/chestBag.tscn" type="PackedScene" id=12]
 
 [node name="test" type="Node2D"]
 __meta__ = {
@@ -31,10 +33,11 @@ curses = [ ExtResource( 9 ) ]
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 32, 32 )
+cell_quadrant_size = 32
 collision_layer = 8
 collision_mask = 31
 format = 1
-tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 10, 0, 0, 11, 0, 0, 12, 0, 0, 13, 0, 0, 14, 0, 0, 15, 0, 0, 16, 0, 0, 17, 0, 0, 18, 0, 0, 19, 0, 0, 65536, 0, 0, 65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 65540, 0, 0, 65541, 0, 0, 65542, 0, 0, 65543, 0, 0, 65544, 0, 0, 65545, 0, 0, 65546, 0, 0, 65547, 0, 0, 65548, 0, 0, 65549, 0, 0, 65550, 0, 0, 65551, 0, 0, 65552, 0, 0, 65553, 0, 0, 65554, 0, 0, 65555, 0, 0, 131072, 0, 0, 131073, 0, 0, 131074, 0, 0, 131087, 0, 0, 131091, 0, 0, 196608, 0, 0, 196609, 0, 0, 196627, 0, 0, 262144, 0, 0, 262163, 0, 0, 327680, 0, 0, 327699, 0, 0, 393216, 0, 0, 393235, 0, 0, 458752, 0, 0, 458771, 0, 0, 524288, 0, 0, 524301, 0, 0, 524302, 0, 0, 524303, 0, 0, 524304, 0, 0, 524305, 0, 0, 524306, 0, 0, 524307, 0, 0, 589824, 0, 0, 589825, 0, 0, 589826, 0, 0, 589827, 0, 0, 589830, 0, 0, 589831, 0, 0, 589832, 0, 0, 589833, 0, 0, 589843, 0, 0, 655360, 0, 0, 655379, 0, 0, 720896, 0, 0, 720897, 0, 0, 720898, 0, 0, 720899, 0, 0, 720900, 0, 0, 720901, 0, 0, 720902, 0, 0, 720903, 0, 0, 720904, 0, 0, 720905, 0, 0, 720906, 0, 0, 720907, 0, 0, 720908, 0, 0, 720909, 0, 0, 720910, 0, 0, 720911, 0, 0, 720912, 0, 0, 720913, 0, 0, 720914, 0, 0, 720915, 0, 0, 786432, 0, 0, 786433, 0, 0, 786434, 0, 0, 786435, 0, 0, 786436, 0, 0, 786437, 0, 0, 786438, 0, 0, 786439, 0, 0, 786440, 0, 0, 786441, 0, 0, 786442, 0, 0, 786443, 0, 0, 786444, 0, 0, 786445, 0, 0, 786446, 0, 0, 786447, 0, 0, 786448, 0, 0, 786449, 0, 0, 786450, 0, 0, 786451, 0, 0 )
+tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 10, 0, 0, 11, 0, 0, 12, 0, 0, 13, 0, 0, 14, 0, 0, 15, 0, 0, 16, 0, 0, 17, 0, 0, 18, 0, 0, 19, 0, 0, 20, 0, 0, 65536, 0, 0, 65556, 0, 0, 131072, 0, 0, 131092, 0, 0, 196608, 0, 0, 196628, 0, 0, 262144, 0, 0, 262164, 0, 0, 327680, 0, 0, 327700, 0, 0, 393216, 0, 0, 393236, 0, 0, 458752, 0, 0, 458772, 0, 0, 524288, 0, 0, 524308, 0, 0, 589824, 0, 0, 589832, 0, 0, 589833, 0, 0, 589834, 0, 0, 589844, 0, 0, 655360, 0, 0, 655361, 0, 0, 655362, 0, 0, 655363, 0, 0, 655364, 0, 0, 655365, 0, 0, 655366, 0, 0, 655367, 0, 0, 655380, 0, 0, 720896, 0, 0, 720904, 0, 0, 720905, 0, 0, 720906, 0, 0, 720907, 0, 0, 720908, 0, 0, 720909, 0, 0, 720910, 0, 0, 720911, 0, 0, 720912, 0, 0, 720913, 0, 0, 720914, 0, 0, 720915, 0, 0, 720916, 0, 0, 786432, 0, 0, 786452, 0, 0, 851968, 0, 0, 851988, 0, 0, 917504, 0, 0, 917524, 0, 0, 983040, 0, 0, 983041, 0, 0, 983042, 0, 0, 983043, 0, 0, 983044, 0, 0, 983045, 0, 0, 983046, 0, 0, 983047, 0, 0, 983048, 0, 0, 983049, 0, 0, 983050, 0, 0, 983051, 0, 0, 983052, 0, 0, 983053, 0, 0, 983054, 0, 0, 983055, 0, 0, 983056, 0, 0, 983057, 0, 0, 983058, 0, 0, 983059, 0, 0, 983060, 0, 0 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -79,6 +82,16 @@ margin_right = 384.0
 margin_bottom = 56.0
 
 [node name="TouchGUI" parent="CanvasLayer" instance=ExtResource( 7 )]
+
+[node name="chestBag" parent="CanvasLayer" instance=ExtResource( 12 )]
+visible = false
+margin_left = 152.0
+margin_top = 78.0
+margin_right = -156.0
+margin_bottom = -234.0
+
+[node name="chest" parent="." instance=ExtResource( 11 )]
+position = Vector2( 160, 288 )
 
 [connection signal="toggled" from="CanvasLayer/Button" to="CanvasLayer/Inventory" method="_on_Button_toggled"]
 [connection signal="toggled" from="CanvasLayer/DressButton" to="CanvasLayer/Equipment" method="_on_DressButton_toggled"]

@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://baseTemplate/object.tscn" type="PackedScene" id=1]
+[ext_resource path="res://asset/objects/chest.png" type="Texture" id=2]
+[ext_resource path="res://objects/chest.gd" type="Script" id=3]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 2 )
+region = Rect2( 16, 0, 16, 16 )
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ SubResource( 1 ) ],
+"loop": true,
+"name": "close",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 2 ) ],
+"loop": true,
+"name": "open",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 24, 24 )
+
+[node name="chest" instance=ExtResource( 1 )]
+z_index = -1
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="." index="3"]
+scale = Vector2( 2, 2 )
+frames = SubResource( 3 )
+animation = "close"
+centered = false
+
+[node name="playerDetect" type="Area2D" parent="." index="4"]
+position = Vector2( 8, 8 )
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="playerDetect" index="0"]
+position = Vector2( 8, 8 )
+shape = SubResource( 4 )
+
+[connection signal="area_entered" from="playerDetect" to="." method="_on_playerDetect_area_entered"]
+[connection signal="area_exited" from="playerDetect" to="." method="_on_playerDetect_area_exited"]

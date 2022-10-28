@@ -10,3 +10,4 @@ name = "Fireball"
 function = "fire"
 description = "Summon a ball of fire"
 itemType = 6
+selfModulation = Color( 1, 0.47451, 0.156863, 1 )

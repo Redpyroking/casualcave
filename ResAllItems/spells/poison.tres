@@ -9,3 +9,5 @@ icon = ExtResource( 1 )
 name = "Poison"
 function = "poison"
 description = ""
+itemType = 6
+selfModulation = Color( 0.933333, 0.333333, 1, 1 )

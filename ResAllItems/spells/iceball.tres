@@ -9,3 +9,5 @@ icon = ExtResource( 2 )
 name = "Iceball"
 function = ""
 description = ""
+itemType = 6
+selfModulation = Color( 0.294118, 0.701961, 0.94902, 1 )
