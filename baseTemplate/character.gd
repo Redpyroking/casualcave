@@ -15,7 +15,7 @@ var knockup = 300
 var playerNear = false
 var can_jump = true
 
-enum all_state {IDLE,MOVE,CHASE,SEARCH,COMBAT,HURT,FIGHT,SLEEP,PICKUP,RETREAT}
+enum all_state {IDLE,MOVE,CHASE,SEARCH,COMBAT,HURT,FIGHT,SLEEP,PICKUP,RETREAT,DEAD}
 export (all_state) var STATE
 
 var is_moving = true
@@ -28,7 +28,7 @@ func _ready():
 
 func _physics_process(delta):
 	falling(delta)
-	if is_moving:
+	if is_moving and STATE != all_state.DEAD:
 		movement(delta)
 	$Label.text = str(all_state.keys()[STATE])
 	if status.has("burn"):
@@ -45,7 +45,7 @@ func _physics_process(delta):
 				$healthTimer.start()
 	healthBar.value = hp
 	if hp < 1:
-		queue_free()
+		die()
 	damageLabel.rect_scale.x = scale.y
 #	print(status)
 
@@ -59,6 +59,15 @@ func falling(delta):
 		motion.y += 0
 	if !can_jump and $checkFloor.is_colliding():
 		can_jump = true 
+
+func die():
+	healthBar.hide()
+	$AnimationPlayer.play("died")
+	if STATE != all_state.DEAD:
+		$deathTimer.start()
+		STATE = all_state.DEAD
+	if $deathTimer.time_left < 2:
+		$damageShowAnime.play("dieingModulate")
 
 func checkHealth(stat) -> int:
 	if status.has(stat):
@@ -93,3 +102,7 @@ func _on_AttackBox_area_entered(area):
 
 func _on_AttackBox_area_exited(area):
 	pass # Replace with function body.
+
+
+func _on_deathTimer_timeout():
+	queue_free()

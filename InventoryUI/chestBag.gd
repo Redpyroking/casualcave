@@ -7,7 +7,6 @@ onready var grid = $ColorRect/GridContainer
 var slotChild
 
 func _ready():
-	Global.StaffEquipment = self
 	for i in range(bagSize):
 		var s = Slot.instance()
 		s.slotType = 0

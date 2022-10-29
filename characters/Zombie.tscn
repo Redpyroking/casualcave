@@ -1,8 +1,9 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://baseTemplate/character.tscn" type="PackedScene" id=1]
 [ext_resource path="res://asset/enemies/zombie.png" type="Texture" id=2]
 [ext_resource path="res://asset/enemies/zombieAttack.png" type="Texture" id=3]
+[ext_resource path="res://asset/base/doppelganger.png" type="Texture" id=4]
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 3 )
@@ -25,6 +26,11 @@ animations = [ {
 "frames": [ SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
 "loop": true,
 "name": "attack",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ) ],
+"loop": true,
+"name": "dead",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 9 ) ],
@@ -139,6 +145,21 @@ tracks/3/keys = {
 "values": [ true, false, true ]
 }
 
+[sub_resource type="Animation" id=13]
+resource_name = "died"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "dead" ]
+}
+
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 9, 13 )
 
@@ -165,6 +186,7 @@ shape = SubResource( 5 )
 [node name="AnimationPlayer" parent="." index="14"]
 anims/RESET = SubResource( 11 )
 anims/attack = SubResource( 12 )
+anims/died = SubResource( 13 )
 
 [node name="CollisionShape2D" parent="." index="15"]
 shape = SubResource( 1 )
@@ -175,7 +197,6 @@ shape = SubResource( 4 )
 [node name="damageLabel" parent="." index="19"]
 margin_right = 47.0
 text = "Immune"
-percent_visible = 1.0
 __meta__ = {
 "_editor_description_": ""
 }

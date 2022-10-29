@@ -27,7 +27,7 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 24, 24 )
+extents = Vector2( 16, 16 )
 
 [node name="chest" instance=ExtResource( 1 )]
 z_index = -1
@@ -50,9 +50,17 @@ shape = SubResource( 4 )
 [node name="CanvasLayer" type="CanvasLayer" parent="." index="5"]
 
 [node name="chestBag" parent="CanvasLayer" index="0" instance=ExtResource( 4 )]
-visible = false
-margin_left = 176.0
-margin_right = -132.0
+anchor_left = 0.287582
+anchor_top = 0.22
+anchor_right = 0.784314
+anchor_bottom = 0.44
+margin_left = -1.52588e-05
+margin_top = 0.0
+margin_right = 0.0
+margin_bottom = 0.0
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [connection signal="area_entered" from="playerDetect" to="." method="_on_playerDetect_area_entered"]
 [connection signal="area_exited" from="playerDetect" to="." method="_on_playerDetect_area_exited"]

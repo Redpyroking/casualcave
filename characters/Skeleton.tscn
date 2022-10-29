@@ -1,6 +1,21 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://baseTemplate/character.tscn" type="PackedScene" id=1]
+
+[sub_resource type="Animation" id=1]
+resource_name = "died"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "dead" ]
+}
 
 [node name="Skeleton" instance=ExtResource( 1 )]
 collision_layer = 2
@@ -10,6 +25,9 @@ speed = 70
 
 [node name="playerDetect" parent="." index="5"]
 collision_layer = 2
+
+[node name="AnimationPlayer" parent="." index="14"]
+anims/died = SubResource( 1 )
 
 [node name="damageLabel" parent="." index="19"]
 margin_right = 47.0

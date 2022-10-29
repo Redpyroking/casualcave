@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://baseTemplate/entity.tscn" type="PackedScene" id=1]
 [ext_resource path="res://baseTemplate/character.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://asset/enemies/skeletonAttack.png" type="Texture" id=4]
 [ext_resource path="res://asset/enemies/skeleton.png" type="Texture" id=5]
 [ext_resource path="res://icon.png" type="Texture" id=6]
+[ext_resource path="res://asset/base/doppelganger.png" type="Texture" id=7]
 
 [sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 4 )
@@ -28,6 +29,11 @@ animations = [ {
 "frames": [ SubResource( 13 ), SubResource( 14 ), SubResource( 15 ) ],
 "loop": true,
 "name": "attack",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 7 ) ],
+"loop": true,
+"name": "dead",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 16 ) ],
@@ -235,6 +241,23 @@ extents = Vector2( 9, 13 )
 [sub_resource type="RectangleShape2D" id=12]
 extents = Vector2( 8, 14 )
 
+[sub_resource type="Animation" id=20]
+resource_name = "dieingModulate"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
 [node name="character" instance=ExtResource( 1 )]
 z_index = 1
 script = ExtResource( 2 )
@@ -367,11 +390,18 @@ texture = ExtResource( 6 )
 spread = 62.76
 
 [node name="damageLabel" parent="." index="19"]
-modulate = Color( 1, 1, 1, 0 )
 margin_right = 40.0
 margin_bottom = 31.0
 text = "Immune
 "
+percent_visible = 1.0
+
+[node name="damageShowAnime" parent="." index="20"]
+anims/dieingModulate = SubResource( 20 )
+
+[node name="deathTimer" type="Timer" parent="." index="21"]
+wait_time = 10.0
+one_shot = true
 
 [connection signal="timeout" from="State/StateTimer" to="State" method="_on_StateTimer_timeout"]
 [connection signal="timeout" from="healthTimer" to="." method="_on_healthTimer_timeout"]
@@ -383,3 +413,4 @@ text = "Immune
 [connection signal="area_entered" from="AttackBox" to="." method="_on_AttackBox_area_entered"]
 [connection signal="area_exited" from="AttackBox" to="." method="_on_AttackBox_area_exited"]
 [connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="timeout" from="deathTimer" to="." method="_on_deathTimer_timeout"]
