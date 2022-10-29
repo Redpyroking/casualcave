@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://players/p1.tscn" type="PackedScene" id=1]
 [ext_resource path="res://tileset/tileset.tres" type="TileSet" id=2]
@@ -11,7 +11,6 @@
 [ext_resource path="res://ResAllItems/abilities/fireImmune.tres" type="Resource" id=9]
 [ext_resource path="res://ResAllItems/abilities/meleeImmune.tres" type="Resource" id=10]
 [ext_resource path="res://objects/chest.tscn" type="PackedScene" id=11]
-[ext_resource path="res://InventoryUI/chestBag.tscn" type="PackedScene" id=12]
 
 [node name="test" type="Node2D"]
 __meta__ = {
@@ -83,15 +82,11 @@ margin_bottom = 56.0
 
 [node name="TouchGUI" parent="CanvasLayer" instance=ExtResource( 7 )]
 
-[node name="chestBag" parent="CanvasLayer" instance=ExtResource( 12 )]
-visible = false
-margin_left = 152.0
-margin_top = 78.0
-margin_right = -156.0
-margin_bottom = -234.0
-
 [node name="chest" parent="." instance=ExtResource( 11 )]
 position = Vector2( 160, 288 )
+
+[node name="chest2" parent="." instance=ExtResource( 11 )]
+position = Vector2( 320, 258 )
 
 [connection signal="toggled" from="CanvasLayer/Button" to="CanvasLayer/Inventory" method="_on_Button_toggled"]
 [connection signal="toggled" from="CanvasLayer/DressButton" to="CanvasLayer/Equipment" method="_on_DressButton_toggled"]
