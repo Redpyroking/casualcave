@@ -3,13 +3,14 @@
 [ext_resource path="res://InventoryUI/Inventory.gd" type="Script" id=3]
 
 [node name="Inventory" type="Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 128.0
-margin_top = 264.0
-margin_right = -164.0
-margin_bottom = -8.0
+anchor_left = 0.20915
+anchor_top = 0.66
+anchor_right = 0.732026
+anchor_bottom = 0.98
 script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
@@ -26,4 +27,4 @@ margin_right = -16.0
 margin_bottom = -16.0
 custom_constants/vseparation = 10
 custom_constants/hseparation = 10
-columns = 10
+columns = 6

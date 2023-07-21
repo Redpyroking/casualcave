@@ -12,23 +12,27 @@ func _physics_process(delta):
 	if Global.Equipment.weapon:
 		visible = true
 		$Sprite.texture = Global.Equipment.weapon.get_child(0).texture
+		move(delta)
 		if weaponRes.holdItem != null:
 			if weaponRes.holdItem.weaponType == 2:
-				player.get_parent().get_node("CanvasLayer/StaffEquipment").visible = true
+				player.get_parent().get_parent().get_node("CanvasLayer/StaffEquipment").visible = true
 			else:
-				player.get_parent().get_node("CanvasLayer/StaffEquipment").visible = false
+				player.get_parent().get_parent().get_node("CanvasLayer/StaffEquipment").visible = false
 		else:
-			player.get_parent().get_node("CanvasLayer/StaffEquipment").visible = false
+			player.get_parent().get_parent().get_node("CanvasLayer/StaffEquipment").visible = false
+
+func move(delta):
+	get_parent().look_at(get_global_mouse_position())
 
 func attack():
 	if weaponRes.holdItem != null:
 		if weaponRes.holdItem.weaponType == 2:
 			var m = magicalOrb.instance()
 			if m.has_method("init"):
-				m.init(global_position,!get_parent().get_parent().get_node("Sprite").flip_h)
+				m.init(global_position,get_parent().global_rotation)
 				add_child(m)
 				var staff_magic1_data = Global.StaffEquipment.grid.get_child(0).item.thisData
-				var staff_magic2_data = Global.StaffEquipment.grid.get_child(1).item.thisData
+#				var staff_magic2_data = Global.StaffEquipment.grid.get_child(1).item.thisData
 				if staff_magic1_data.holdItem:
 					if m.has_method("addMagic"):
 						m.addMagic(staff_magic1_data.holdItem.function,staff_magic1_data.holdItem.selfModulation)

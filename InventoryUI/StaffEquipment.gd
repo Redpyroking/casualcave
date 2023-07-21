@@ -1,7 +1,7 @@
 extends Control
 
 
-var bagSize = min(2,4)
+var bagSize = min(1,2)
 
 onready var Slot = load("res://InventoryUI/Slot.tscn")
 onready var grid = $ColorRect/GridContainer

@@ -1,26 +1,22 @@
 extends Area2D
 
-var direction = Vector2.RIGHT
+var velocity = Vector2.RIGHT
 var speed = 400
 var currentMagic = null
 var selfModulate = Color(1,1,1)
 
-func init(pos,isDirRight):
+func init(pos,rot):
 	if currentMagic:
 		modulate = selfModulate
 	else:
 		modulate = Color(1,1,1)
 	global_position = pos
+	global_rotation = rot
+	velocity = velocity.rotated(rot)
 	set_as_toplevel(true)
-	if isDirRight:
-		direction = Vector2.RIGHT
-		scale.x = 1
-	else:
-		direction = Vector2.LEFT
-		scale.x = -1
 
 func _process(delta):
-	translate(direction*speed*delta)
+	position += velocity.normalized() *speed* delta
 	modulate = selfModulate
 
 func _on_VisibilityNotifier2D_screen_exited():
@@ -29,6 +25,8 @@ func _on_VisibilityNotifier2D_screen_exited():
 func addMagic(magic,modulation):
 	currentMagic = str(magic)
 	selfModulate = modulation
+#	direction = dir
+	
 #match magic:
 #		"fire":
 #			currentMagic = "fire"

@@ -22,5 +22,6 @@ func _ready():
 		$GridContainer.add_child(s)
 
 
-func _on_Button_toggled(button_pressed):
+func _on_BagButton_toggled(button_pressed):
 	visible = button_pressed
+	pass # Replace with function body.

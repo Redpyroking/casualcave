@@ -7,6 +7,7 @@ export (Array,Resource) var curses
 var status = []
 onready var damageLabel = $damageLabel
 onready var anim = $damageShowAnime
+var linear_dir
 
 func checkCurse(curseName):
 	for i in curses:

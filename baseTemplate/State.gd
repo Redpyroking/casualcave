@@ -2,129 +2,69 @@ extends Node
 
 onready var parent = get_parent()
 onready var playerDetect = $"../playerDetect"
-var playerNear = false
 var inCombatArea = false
 var timeIdle = 0
 var startTimer = true
 
 func _ready():
 	randomize()
-	call_deferred("change_state",parent.all_state.MOVE)
+	call_deferred("change_state",parent.all_state.IDLE)
 
 func _physics_process(delta):
+	if parent.tile_generated:
+		set_state(delta)
+
+
+func set_state(delta):
 	match parent.STATE:
 		parent.all_state.IDLE:
-			if playerNear:
-				parent.is_moving = true
+			if !parent.is_attacking:
+				parent.get_node("Sprite").play("default")
+			if parent.playerNear and !parent.los_collide:
 				change_state(parent.all_state.CHASE)
-			elif inCombatArea:
-				change_state(parent.all_state.COMBAT)
-#			if !parent.is_moving:
-#				yield(get_tree().create_timer(rand_range(1,4)),"timeout")
-#				change_state(parent.all_state.MOVE)
-#			if !(parent.get_node("checkBackOccupied").is_colliding() or parent.get_node("checkWall").is_colliding()):
-#				parent.motion.x *= -1
-#				parent.scale.x *= -1
-#				change_state(parent.all_state.MOVE)
-		parent.all_state.MOVE:
-			if inCombatArea:
-				change_state(parent.all_state.COMBAT)
-			elif playerNear:
-				change_state(parent.all_state.CHASE)
-			elif (parent.get_node("checkBackOccupied").is_colliding() and parent.get_node("checkWall").is_colliding() and parent.get_node("wallJumpCheck").is_colliding()):
-				parent.motion.x *= -1
-				parent.scale.x *= -1
-				yield(get_tree().create_timer(0.2),"timeout")
-				if parent.get_node("wallJumpCheck").is_colliding():
-					change_state(parent.all_state.IDLE)
-			elif !parent.get_node("checkFloor").is_colliding() and parent.can_jump:
-				if !parent.get_node("floorFallCheck").is_colliding():
-					parent.motion.x *= -1
-					parent.scale.x *= -1
-			elif parent.get_node("checkWall").is_colliding() and parent.get_node("wallJumpCheck").is_colliding():
-				parent.motion.x *= -1
-				parent.scale.x *= -1
-			elif parent.get_node("checkWall").is_colliding() and !parent.get_node("wallJumpCheck").is_colliding():
-				parent.jump()
 		parent.all_state.CHASE:
-			var dist_from_player = parent.global_position.distance_to(Global.Player.global_position)
-			var y_dist_from_player = abs(parent.global_position.y - Global.Player.global_position.y)
-			if Global.Player.global_position.x > parent.global_position.x and parent.scale.y == -1 and dist_from_player>12:
-				parent.motion.x *= -1
-				parent.scale.x = -1
-			elif Global.Player.global_position.x < parent.global_position.x and parent.scale.y == 1 and dist_from_player>12:
-				parent.motion.x *= -1
-				parent.scale.x = -1
-			elif parent.get_node("wallJumpCheck").is_colliding() and !parent.get_node("checkFloor").is_colliding():
+			if parent.playerNear:
+					parent.seen = true
+					parent.get_node("chaseCooldown").start(parent.get_node("chaseCooldown").wait_time)
+			elif parent.out_of_screen:
+				if parent.seen:
+					if !parent.chaseCooled:
+						parent.get_node("chaseCooldown").start()
+						parent.chaseCooled = true
+			if parent.seen:
+				parent.get_node("Sprite").flip_h = Global.Player.global_position.x > parent.global_position.x
+				parent.get_node("playerDetect").scale.x = -( 2 * int(!parent.get_node("Sprite").flip_h) - 1)
+				if parent.global_position.distance_to(Global.Player.global_position) > 15:
+					parent.movement(delta)
+				if !parent.is_attacking:
+					parent.get_node("Sprite").play("walk")
+			else:
 				change_state(parent.all_state.IDLE)
-			elif !parent.get_node("wallJumpCheck").is_colliding() and parent.get_node("checkWall").is_colliding():
-				parent.jump()
-			elif inCombatArea:
-				change_state(parent.all_state.COMBAT)
-			elif playerNear:
-				change_state(parent.all_state.CHASE)
-			else:
-				change_state(parent.all_state.SEARCH)
-		parent.all_state.SEARCH:
-			if inCombatArea:
-				change_state(parent.all_state.COMBAT)
-			elif playerNear:
-				$StateTimer.stop()
-				startTimer = true
-				change_state(parent.all_state.CHASE)
-			elif (parent.get_node("checkBackOccupied").is_colliding() and parent.get_node("checkWall").is_colliding() and parent.get_node("wallJumpCheck").is_colliding()):
-				parent.motion.x *= -1
-				parent.scale.x *= -1
-				yield(get_tree().create_timer(0.2),"timeout")
-				if parent.get_node("wallJumpCheck").is_colliding():
-					$StateTimer.stop()
-					startTimer = true
-					change_state(parent.all_state.IDLE)
-			elif !parent.get_node("checkFloor").is_colliding() and parent.can_jump:
-				if !parent.get_node("floorFallCheck").is_colliding():
-					parent.motion.x *= -1
-					parent.scale.x *= -1
-			elif parent.get_node("checkWall").is_colliding() and parent.get_node("wallJumpCheck").is_colliding():
-				parent.motion.x *= -1
-				parent.scale.x *= -1
-			elif randi() % 250 == 0:
-				parent.motion.x *= -1
-				parent.scale.x *= -1
-			elif !parent.get_node("wallJumpCheck").is_colliding() and parent.get_node("checkWall").is_colliding():
-				parent.jump()
-			else:
-				if startTimer:
-					$StateTimer.start()
-					startTimer = false
-		parent.all_state.COMBAT:
-			if !inCombatArea:
-				parent.is_moving = true
-				change_state(parent.all_state.MOVE)
-			else:
-				var anim = parent.get_node("AnimationPlayer")
-				if !anim.is_playing():
-					parent.is_moving = false
-					parent.get_node("AnimationPlayer").play("attack")
-			
+	match parent.ATTACK_STATE:
+		parent.attack_state.ATTACK:
+			if !parent.is_attacking:
+				parent.is_attacking = true
+				parent.get_node("Sprite").play("attack")
+			if parent.global_position.distance_to(Global.Player.global_position) > 20:
+				change_combat_state(parent.attack_state.NONE)
+		parent.attack_state.NONE:
+			parent.is_attacking = false
+			if parent.global_position.distance_to(Global.Player.global_position) <= 20:
+				change_combat_state(parent.attack_state.ATTACK)
 
 func change_state(new_state):
 	parent.STATE = new_state
 
+func change_combat_state(new_combat_state):
+	parent.ATTACK_STATE = new_combat_state
+
 func _on_playerDetect_area_entered(area):
 	if area.is_in_group("player"):
-		playerNear = true
+		parent.playerNear = true
 
 func _on_playerDetect_area_exited(area):
 	if area.is_in_group("player"):
-		playerNear = false
-
-func _on_StateTimer_timeout():
-	if parent.STATE == parent.all_state.SEARCH:
-		if !playerNear:
-			change_state(parent.all_state.MOVE)
-		else:
-			change_state(parent.all_state.CHASE)
-	startTimer = true
+		parent.playerNear = false
 
 func _on_combatArea_area_entered(area):
 	if area.is_in_group("player"):
@@ -133,3 +73,18 @@ func _on_combatArea_area_entered(area):
 func _on_combatArea_area_exited(area):
 	if area.is_in_group("player"):
 		inCombatArea = false
+
+func get_circle_position(random):
+	var kill_circle_centre = Global.Player.global_position
+	var radius = 40
+	 #Distance from center to circumference of circle
+	var angle = random * PI * 2;
+	var x = kill_circle_centre.x + cos(angle) * radius;
+	var y = kill_circle_centre.y + sin(angle) * radius;
+
+	return Vector2(x, y)
+
+func _on_chaseCooldown_timeout():
+	parent.seen = false
+	parent.chaseCooled = false
+	parent.get_node("chaseCooldown").stop()

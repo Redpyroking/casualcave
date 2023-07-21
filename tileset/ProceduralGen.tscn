@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://tileset/ProceduralGen.gd" type="Script" id=1]
+[ext_resource path="res://tileset/tileset.tres" type="TileSet" id=2]
+
+[node name="ProceduralGen" type="Node2D"]
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 32, 32 )
+format = 1
+script = ExtResource( 1 )
+num_rooms = 20
+min_size = 6
+hspread = 12
+space_between_rooms = 3
+cull = 0.35
+max_corridor_width = 3
+is_debug = false
+
+[node name="Rooms" type="Node2D" parent="TileMap"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 320, 192 )
+current = true
+zoom = Vector2( 5, 8 )

@@ -101,7 +101,6 @@ rect_pivot_offset = Vector2( 32, 0 )
 text = "Immune"
 align = 1
 valign = 1
-percent_visible = -0.166667
 
 [node name="damageShowAnime" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 1 )
